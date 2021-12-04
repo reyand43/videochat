@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  socket:
+    build: socket
+    restart: always
+    ports:
+      - 8000:3000
+
+  web-client:
+    build: web-client
+    restart: always
+    depends_on:
+      - socket
+    ports:
+      - 3000:3000
+
+  

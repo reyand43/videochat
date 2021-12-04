@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    socket_kurentoab:
+        build: socket
+        restart: always
+        environment:
+            - SOCKET_PORT=8000
+        ports:
+            - 49601:8000
+
+    web-client_kurentoab:
+        build:
+            context: web-client
+            args:
+                - NEXT_PUBLIC_SOCKET_URL=${SOCKET_URL_MAIN}
+        restart: always
+        depends_on:
+            - socket_kurentoab
+        environment:
+            - NEXT_PUBLIC_SOCKET_URL=${SOCKET_URL_MAIN}
+        ports:
+            - 49600:3000
+
+networks:
+    default:
+        external:
+            name: demoserver_network_1
